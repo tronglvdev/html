@@ -128,7 +128,7 @@
 .nav-item {
   color: #0d0c0c;
   decorator: none;
-  margin: 0, 14px;
+  margin: 0 14px;
   display: block;
 }
 
@@ -333,10 +333,11 @@
   font-size: 24px;
   line-height: 30px;
   color: #061a53;
-  over-flow: hidden;
+  overflow: hidden;
   margin-top: 36px;
   margin-bottom: 12px;
   cursor: pointer;
+  text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -395,7 +396,6 @@
 .widget-heading {
   font-weight: bold;
   font-size: 22px;
-  color: #2a0475;
   white-space: nowrap;
   margin-bottom: 16px;
 }
@@ -409,11 +409,9 @@
 .popular-post-content {
   width: 320px;
   height: 84.7px;
-
   display: flex;
   align-items: center;
   gap: 16px;
-
   cursor: pointer;
   border-radius: 10px;
   padding: 4px;
@@ -440,9 +438,11 @@
   margin-right: 4px;
 }
 
-.popular-content a {
+.popular-content p {
   font-size: 14px;
   line-height: 22px;
+  text-decoration: none;
+
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -515,7 +515,7 @@
   border: 1px solid rgb(200, 202, 208);
   border-radius: 15px;
   font-size: 16px;
-  background-color: #ffff;
+  background-color: #ffffff;
 }
 .alert {
   color: #f11616;
@@ -628,7 +628,7 @@
   cursor: pointer;
 }
 .footer-contact-item .f-bar-icons i {
-  color: #ffff;
+  color: #ffffff;
 }
 
 .f-info {
@@ -639,7 +639,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 10px;
-  color: #ffff;
+  color: #ffffff;
 }
 .f-info-group {
   margin-bottom: 20px;
@@ -747,7 +747,7 @@
 .float-btn p {
   font-weight: 700;
   display: flex;
-  tex-align: justify;
+  text-align: justify;
   text-transform: uppercase;
   flex-direction: column;
 }

@@ -38,16 +38,15 @@ document.getElementById("consultForm").addEventListener("submit", function (e) {
   const email = document.getElementById("email").value;
   const role = document.getElementById("role").value;
   const goal = document.getElementById("goal").value;
-  const alert = document.querySelectorAll(".form-field p");
 
   let isValid = true;
-  if (fullName.length < 2 || fullName.length > 50) {
+  if (fullName.length < 2) {
     isValid = false;
   }
-  if (isValid && !phoneRegex.test(phone)) {
+  if (!phoneRegex.test(phone)) {
     isValid = false;
   }
-  if (isValid && !emailRegex.test(email)) {
+  if (!emailRegex.test(email)) {
     isValid = false;
   }
 
@@ -83,13 +82,11 @@ const modalImage = document.querySelector(".modal-image");
 function closeModal() {
   modalContent.classList.add("hidden-modal");
   blurBg.classList.add("hidden-blur");
-  document.body.classList.remove("modal-open");
 }
 
 function showModal() {
   modalContent.classList.remove("hidden-modal");
   blurBg.classList.remove("hidden-blur");
-  document.body.classList.add("modal-open");
 }
 
 openLink.forEach((ol) => {
@@ -113,7 +110,7 @@ openLink.forEach((ol) => {
 openPost.forEach((op) => {
   op.addEventListener("click", () => {
     const popularImage = op.querySelector(".popular-img img");
-    const popularContent = op.querySelector(".popular-content a");
+    const popularContent = op.querySelector(".popular-content p");
     modalTitle.textContent = "Bài viết phổ biến";
     modalImage.src = popularImage.src;
     modalBody.textContent = popularContent.textContent.trim();
