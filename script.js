@@ -9,32 +9,71 @@ function updateStickyHeading() {
     window.scrollY >= topBar.offsetHeight,
   );
 }
-
 window.addEventListener("scroll", updateStickyHeading);
 updateStickyHeading();
+
+//Load data from local storage
+window.addEventListener("DOMContentLoaded", () => {
+  const savedData = localStorage.getItem("userConsultData");
+
+  if (savedData) {
+    const formData = JSON.parse(savedData);
+
+    document.getElementById("fullName").value = formData.fullName || "";
+    document.getElementById("phone").value = formData.phone || "";
+    document.getElementById("email").value = formData.email || "";
+    document.getElementById("role").value = formData.role || "";
+    document.getElementById("goal").value = formData.goal || "";
+  }
+});
 
 //Consult Form Info
 document.getElementById("consultForm").addEventListener("submit", function (e) {
   e.preventDefault();
-
+  const phoneRegex =
+    /^(?:0(?:3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-46-9])[0-9]{7}|\+84(?:3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-46-9])[0-9]{7}|\(\+84\)\s?(?:3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-46-9])[0-9]{7})$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const fullName = document.getElementById("fullName").value;
   const phone = document.getElementById("phone").value;
   const email = document.getElementById("email").value;
   const role = document.getElementById("role").value;
   const goal = document.getElementById("goal").value;
+  const alert = document.querySelectorAll(".form-field p");
 
-  document.getElementById("displayFullName").textContent = fullName;
-  document.getElementById("displayPhone").textContent = phone;
-  document.getElementById("displayEmail").textContent = email;
-  document.getElementById("displayRole").textContent = role;
-  document.getElementById("displayGoal").textContent = goal;
+  let isValid = true;
+  if (fullName.length < 2 || fullName.length > 50) {
+    isValid = false;
+  }
+  if (isValid && !phoneRegex.test(phone)) {
+    isValid = false;
+  }
+  if (isValid && !emailRegex.test(email)) {
+    isValid = false;
+  }
 
-  document.getElementById("result").style.display = "grid";
+  if (isValid) {
+    const formData = {
+      fullName: fullName,
+      phone: phone,
+      email: email,
+      role: role,
+      goal: goal,
+    };
+
+    localStorage.setItem("userConsultData", JSON.stringify(formData));
+    document.getElementById("displayFullName").textContent = fullName;
+    document.getElementById("displayPhone").textContent = phone;
+    document.getElementById("displayEmail").textContent = email;
+    document.getElementById("displayRole").textContent = role;
+    document.getElementById("displayGoal").textContent = goal;
+    document.getElementById("result").style.display = "grid";
+  }
 });
 
-//Popup post card
+// Show Popup
 const modalContent = document.querySelector(".modal-content");
-const openModal = document.querySelectorAll(".read-more-link a");
+const openLink = document.querySelectorAll(".read-more-link a");
+const openPost = document.querySelectorAll(".popular-post-content");
 const closeModalButton = document.querySelector(".close-modal");
 const blurBg = document.querySelector(".blur-bg");
 const modalTitle = document.querySelector("#modalTitle");
@@ -47,11 +86,17 @@ function closeModal() {
   document.body.classList.remove("modal-open");
 }
 
-openModal.forEach((om) => {
-  om.addEventListener("click", (event) => {
+function showModal() {
+  modalContent.classList.remove("hidden-modal");
+  blurBg.classList.remove("hidden-blur");
+  document.body.classList.add("modal-open");
+}
+
+openLink.forEach((ol) => {
+  ol.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const postCard = om.closest(".post-card");
+    const postCard = ol.closest(".post-card");
     const cardImage = postCard.querySelector(".image-wrapper img");
     modalTitle.textContent = postCard
       .querySelector(".card-title")
@@ -60,10 +105,19 @@ openModal.forEach((om) => {
     modalBody.textContent = postCard
       .querySelector(".card-content")
       .textContent.trim();
-    modalContent.classList.remove("hidden-modal");
-    blurBg.classList.remove("hidden-blur");
-    document.body.classList.add("modal-open");
-    closeModalButton.focus();
+
+    showModal();
+  });
+});
+
+openPost.forEach((op) => {
+  op.addEventListener("click", () => {
+    const popularImage = op.querySelector(".popular-img img");
+    const popularContent = op.querySelector(".popular-content a");
+    modalTitle.textContent = "Bài viết phổ biến";
+    modalImage.src = popularImage.src;
+    modalBody.textContent = popularContent.textContent.trim();
+    showModal();
   });
 });
 
